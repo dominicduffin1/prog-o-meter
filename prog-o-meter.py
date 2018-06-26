@@ -82,7 +82,7 @@ class ProgressGUI(object):
         VERTICAL_TEXT_POSITION = 100
         ENCOURAGEMENT_TEXT_POSITION = 400
         self.canvas = Tk.Canvas(self.root, width = self.CANVAS_WIDTH, height = self.CANVAS_HEIGHT)
-        self.canvas.pack()
+        self.canvas.grid(row = 0, column = 0, columnspan = 2)
         self.greeting = self.canvas.create_text(self.CANVAS_WIDTH/2, VERTICAL_TEXT_POSITION, text = ("".join(("Hello ", self.username))))
         self.countdown_text = self.canvas.create_text(self.CANVAS_WIDTH/2, VERTICAL_TEXT_POSITION+40, justify = Tk.CENTER, text = "".join(("You have ", str(self.days_remaining), " days left!\n\n", "If you code everyday, you will be done with this project on ", self.completion_date)))
         self.encourage_text = self.canvas.create_text(self.CANVAS_WIDTH/2, ENCOURAGEMENT_TEXT_POSITION+40, justify = Tk.CENTER, text = "")
@@ -99,12 +99,12 @@ class ProgressGUI(object):
             
         """
         self.add_day_button = Tk.Button(self.root, text = "1 more day!", command = self.add_day)
-        self.add_day_button.pack()
+        self.add_day_button.grid(row = 1, column = 0)
         if self.days >= self.GOAL:        # Disable add_day_button if goal have been reached
             self.add_day_button.config(state = "disabled")
             self.canvas.itemconfig(self.greeting, text=("".join(("Congrats! ", self.username))))
         self.add_log_button = Tk.Button(self.root, text="Make log entry", command = self.log_entry)
-        self.add_log_button.pack()
+        self.add_log_button.grid(row = 1, column = 1)
     def prog_o_meter(self):
         """Display a prog-o-meter on the canvas.
 
