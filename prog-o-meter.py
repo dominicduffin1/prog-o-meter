@@ -98,7 +98,7 @@ class ProgressGUI(object):
         self.button_layout()
 
     def button_layout(self):
-        """Display a button with the text "1 more day!" and a button with the text "Log" on the canvas.
+        """Display a button with the text "1 more day!" and a button with the text "Log" on the button_frame.
         
         Creates and display a button with the text "1 more day!" with the function add_day() as callback function. If user have already reached their goal, the button is displayed, but is disabled. 
         Creates and displays a button with the text "Make log entry", with the function log_entry() as callback function.
