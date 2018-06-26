@@ -108,7 +108,7 @@ class ProgressGUI(object):
     def prog_o_meter(self):
         """Display a prog-o-meter on the canvas.
 
-        Displays a progess-o-meter made of white rectangles. There will be one rectangle pr. day in goal. Rectangles will be displayed right up against each other, making them appear as one long rectangles, with horizontal lines sectioning it.
+        Displays a progess-o-meter made of grey rectangles. There will be one rectangle pr. day in goal. Rectangles will be displayed right up against each other, making them appear as one long rectangles, with horizontal lines sectioning it.
         There will be 50 pixels from left edge of window to first rectangle in prog-o-meter, and 50 pixels from last rectangle to right edge of window.
         Rectangles will be 20 pixels high, and their width will be the CANVAS_WIDTH, minus 100 pixels (distance from right+left edge of window to ends of prog-o-meter) divided by number of days in goal.
         """
@@ -116,8 +116,10 @@ class ProgressGUI(object):
         RIGHT_BOUNDARY = 50
         RECTANGLE_HEIGHT = 20
         RECTANGLE_WIDENESS = (self.CANVAS_WIDTH-(LEFT_BOUNDARY+RIGHT_BOUNDARY))/self.GOAL
+        COLOR_WHITE = "#ffffff"
+        COLOR_GREY = "#dddddd"
         for _ in range(self.GOAL):        # Create a rectangle for each day and add it to the rectangle_list
-            rectangle = self.canvas.create_rectangle(LEFT_BOUNDARY, self.CANVAS_HEIGHT/2, LEFT_BOUNDARY+RECTANGLE_WIDENESS, (self.CANVAS_HEIGHT/2)+RECTANGLE_HEIGHT, fill = "white")
+            rectangle = self.canvas.create_rectangle(LEFT_BOUNDARY, self.CANVAS_HEIGHT/2, LEFT_BOUNDARY+RECTANGLE_WIDENESS, (self.CANVAS_HEIGHT/2)+RECTANGLE_HEIGHT, fill = COLOR_GREY, outline = COLOR_WHITE)
             self.rectangle_list.append(rectangle)
             LEFT_BOUNDARY += RECTANGLE_WIDENESS
     def progress(self):
@@ -125,10 +127,11 @@ class ProgressGUI(object):
 
         Fills in rectangles in prog-o-meter to represent the current progress of user, from left to right.
         Completed days will be filled out with a solid color (currently hardcoded to be blue).
-        Remaining days will remain white.
+        Remaining days will remain grey.
         """
+        COLOR_BLUE = "#14a8e2"
         for i in range(self.days):        # Color a rectangle pr. completed day blue (from left to right)
-            self.canvas.itemconfig(self.rectangle_list[i], fill = "blue")
+            self.canvas.itemconfig(self.rectangle_list[i], fill = COLOR_BLUE)
     def get_completion_date(self, days_remaining):
         """Calculate the date at which the challenge will be over.
 
@@ -151,15 +154,16 @@ class ProgressGUI(object):
     def add_day(self):
         """Fill out one more rectangle in prog-o-meter with color, to represent one more day completed.
 
-        Callback function to add_day_button. Fills out one more rectangle (most left-ward white rectangle) with color, to represent another day completed.
+        Callback function to add_day_button. Fills out one more rectangle (most left-ward grey rectangle) with color, to represent another day completed.
         Color will be diferent from current progress, to make the new day stand out.
         (Currently the new-day color is hardcoded to be green, but in the future, user should be able to change this themselves).
         """
+        COLOR_GREEN = "#14e290"
         self.user.add_days(1)
         self.days += 1
         self.days_remaining = self.GOAL - self.days
         self.completion_date = self.get_completion_date(self.days_remaining)
-        self.canvas.itemconfig(self.rectangle_list[self.days-1], fill = "green")
+        self.canvas.itemconfig(self.rectangle_list[self.days-1], fill = COLOR_GREEN)
         self.canvas.itemconfig(self.encourage_text, text = "".join(self.encourage[self.new_no(self.current_greeting)]))
         self.canvas.itemconfig(self.countdown_text, text = "".join(("You have ", str(self.days_remaining), " days left!\n\n", "If you code everyday, you will be done with this project on ", self.completion_date)))
         if self.days >=self.GOAL:        # Disable add_day_button if goal have been reached
